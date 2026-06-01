@@ -265,39 +265,40 @@
         </div>
     </div>
 
-    <!-- 🧠 LOGICA DE FILTRADO Y AJUSTE DE ALTURA AUTOMÁTICO (iFRAME) -->
+<!-- 🧠 LÓGICA DE FILTRADO Y COMUNICACIÓN AUTOMÁTICA -->
     <script>
-        // Función para enviar la altura de la página a la web padre (Empretienda)
+        // Función fija de envío de altura sin acumuladores
         function enviarAltura() {
             setTimeout(() => {
-                const altura = document.body.scrollHeight;
-                window.parent.postMessage({ tipo: 'resize', alto: altura }, '*');
-            }, 100);
+                var alturaContenido = document.body.scrollHeight;
+                // Envía la altura exacta usando el nuevo canal exclusivo de la galería
+                window.parent.postMessage({ 
+                    tipo: 'ajustarAlturaGaleria', 
+                    altura: alturaContenido 
+                }, '*');
+            }, 150); // Pequeño delay para asegurar que los elementos cargaron en mobile
         }
 
+        // Función de filtrado responsiva de tarjetas
         function filterGallery(category, button) {
-            // Remover estado activo de todos los botones
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Agregar activo al botón presionado
             button.classList.add('active');
 
-            // Filtrar las tarjetas de la grilla
             const items = document.querySelectorAll('.gallery-item');
             items.forEach(item => {
                 if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
+                    item.style.display = 'flex';
                 } else {
                     item.style.display = 'none';
                 }
             });
 
-            // Re-calcular la altura tras ocultar o mostrar elementos
+            // Al ocultar/mostrar tarjetas la altura cambia, la recalculamos al instante
             enviarAltura();
         }
 
-        // Ejecutar cálculo al cargar la página inicialmente
+        // Disparadores iniciales cuando carga o se rota la pantalla
         window.addEventListener('load', enviarAltura);
         window.addEventListener('resize', enviarAltura);
     </script>
