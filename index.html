@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Trabajos y Catálogo de Aplicaciones - La Tienda de Cintas</title>
+    <title>Galería de Trabajos - La Tienda de Cintas</title>
     <style>
-        /* 🎨 PALETA DE COLORES ADAPTADA A LA MARCA (CLARA Y PREMIUM) */
+        /* 🎨 VARIABLES Y BASE RESPONSIVE */
         body {
             font-family: 'Google Sans', Arial, sans-serif;
             line-height: 1.45;
-            color: #1F2937; /* Gris oscuro para lectura premium */
-            background-color: #F3F4F6; /* Fondo gris claro de la marca */
+            color: #1F2937;
+            background-color: #ffffff;
             margin: 0;
-            padding: 30px 15px;
+            padding: 15px;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
             background: #ffffff;
-            padding: 40px 30px;
+            padding: 25px 15px;
             border-radius: 16px;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
             border: 1px solid #E5E7EB;
+            box-sizing: border-box;
         }
 
         h1 {
             color: #000000;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
-            margin: 0 0 12px 0;
+            margin: 0 0 10px 0;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -39,68 +41,72 @@
         .subtitle {
             text-align: center;
             color: #4B5563;
-            font-size: 15px;
+            font-size: 13.5px;
             font-weight: 500;
             max-width: 700px;
-            margin: 0 auto 35px auto;
+            margin: 0 auto 25px auto;
+            line-height: 1.5;
         }
         
-        /* Sistema de Filtros Interactivos */
+        /* 📱 FILTROS SCROLLABLE EN MÓVILES */
         .filter-container {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 8px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            white-space: nowrap;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none;
         }
 
         .filter-btn {
             background-color: #F3F4F6;
             color: #4B5563;
             border: 1px solid #E5E7EB;
-            padding: 10px 22px;
+            padding: 10px 18px;
             border-radius: 25px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
 
         .filter-btn:hover, .filter-btn.active {
-            background-color: #364CE4; /* Azul de marca */
+            background-color: #364CE4;
             color: #ffffff;
             border-color: #364CE4;
-            box-shadow: 0 4px 15px rgba(54, 76, 228, 0.25);
+            box-shadow: 0 4px 12px rgba(54, 76, 228, 0.2);
         }
 
-        /* Grilla de la Galería */
+        /* 📊 GRILLA ADAPTABLE */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
         .gallery-item {
             background: #ffffff;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             border: 1px solid #E5E7EB;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(54, 76, 228, 0.08);
-            border-color: rgba(54, 76, 228, 0.3);
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Marcadores de Imagen con Degradado Corporativo Sutil */
         .image-placeholder {
             width: 100%;
-            height: 220px;
+            height: 180px;
             background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
             color: #ffffff;
             display: flex;
@@ -109,98 +115,107 @@
             align-items: center;
             text-align: center;
             position: relative;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
-            letter-spacing: 0.3px;
         }
 
         .image-placeholder span {
-            font-size: 36px;
-            margin-bottom: 8px;
+            font-size: 32px;
+            margin-bottom: 6px;
         }
 
         .badge-type {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 12px;
+            left: 12px;
             background-color: #364CE4;
             color: #ffffff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 9px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        /* Detalles de la tarjeta */
         .item-details {
-            padding: 22px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .item-title {
-            font-size: 17px;
+            font-size: 16px;
             color: #000000;
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
             font-weight: 700;
         }
 
         .item-description {
-            font-size: 13px;
+            font-size: 12.5px;
             color: #4B5563;
             margin-bottom: 15px;
-            line-height: 1.45;
+            line-height: 1.4;
         }
 
         .item-meta {
-            font-size: 12px;
+            font-size: 11.5px;
             color: #1F2937;
             border-top: 1px solid #F3F4F6;
-            padding-top: 12px;
-            margin-bottom: 18px;
+            padding-top: 10px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             font-weight: 500;
+            margin-top: auto;
         }
 
-        /* Botón de Acción de la Marca */
         .cta-btn {
             display: block;
             text-align: center;
             background-color: #364CE4;
             color: #ffffff !important;
             text-decoration: none !important;
-            padding: 11px;
+            padding: 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
         }
 
         .cta-btn:hover {
             background-color: #000000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        /* Ajustes Mobile */
-        @media (max-width: 600px) {
-            .container { padding: 30px 15px; }
-            h1 { font-size: 24px; }
-            .filter-btn { padding: 8px 16px; font-size: 12px; }
+        /* 💻 MONITOR DE COMPUTADORA */
+        @media (min-width: 640px) {
+            body { padding: 30px 20px; }
+            .container { padding: 40px; }
+            h1 { font-size: 28px; }
+            .subtitle { font-size: 15px; margin-bottom: 35px; }
+            .filter-container { justify-content: center; overflow-x: visible; padding-bottom: 0; }
+            .filter-btn { font-size: 13px; padding: 10px 22px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; }
+            .image-placeholder { height: 210px; font-size: 13px; }
+            .image-placeholder span { font-size: 36px; }
+            .item-title { font-size: 17px; }
+            .item-description { font-size: 13px; }
+            .cta-btn { padding: 11px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Galería de Producciones Reales</h1>
-        <p class="subtitle">Explorá los proyectos de nuestros clientes. Desde lanyards de alta fidelidad para marcas líderes hasta rollos técnicos listos para confección y sublimación industrial.</p>
+        <h1>Galería de Producciones</h1>
+        <p class="subtitle">Explorá los proyectos de nuestros clientes. Desde lanyards armados de alta fidelidad hasta rollos técnicos listos para confección industrial.</p>
 
-        <!-- Filtros de Navegación -->
+        <!-- Filtros -->
         <div class="filter-container">
             <button class="filter-btn active" onclick="filterGallery('all', this)">Ver Todo</button>
             <button class="filter-btn" onclick="filterGallery('lanyards', this)">Lanyards Armados</button>
@@ -208,13 +223,14 @@
             <button class="filter-btn" onclick="filterGallery('mascotas', this)">Línea Mascotas</button>
         </div>
 
-        <!-- Grilla de Trabajos -->
+        <!-- Grilla de Trabajos (9 Tarjetas en Total) -->
         <div class="gallery-grid">
             
-            <!-- Item 1: Lanyards Corporativos -->
+            <!-- ================= CATEGORÍA: LANYARDS (3) ================= -->
+            <!-- Item 1 -->
             <div class="gallery-item" data-category="lanyards">
                 <div class="image-placeholder">
-                    <span>🎗️</span> [FOTO REAL: Lanyard Sublimado Corporativo]
+                    <span>🎗️</span> [FOTO REAL: Lanyard Sublimado]
                     <div class="badge-type">Armado Terminado</div>
                 </div>
                 <div class="item-details">
@@ -228,11 +244,100 @@
                 </div>
             </div>
 
-            <!-- Item 2: Línea Mascotas -->
+            <!-- Item 2 -->
+            <div class="gallery-item" data-category="lanyards">
+                <div class="image-placeholder">
+                    <span>🎫</span> [FOTO REAL: Cintas Acreditaciones]
+                    <div class="badge-type">Armado Terminado</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Cintas para Acreditaciones</h3>
+                    <p class="item-description">Producción masiva de lanyards institucionales equipados con gancho clip cocodrilo para pases de prensa y eventos.</p>
+                    <div class="item-meta">
+                        <span><strong>Herraje:</strong> Clip Cocodrilo</span>
+                        <span><strong>Ancho:</strong> 15 mm</span>
+                    </div>
+                    <a href="/presupuestador" target="_top" class="cta-btn">Cotizar Eventos</a>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="gallery-item" data-category="lanyards">
+                <div class="image-placeholder">
+                    <span>🔑</span> [FOTO REAL: Llaveros de Cinta]
+                    <div class="badge-type">Armado Terminado</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Llaveros con Mosquetón</h3>
+                    <p class="item-description">Llaveros cortos personalizados ideales para merchandising de marcas. Incluyen argolla plana italiana y terminal de alta resistencia.</p>
+                    <div class="item-meta">
+                        <span><strong>Tipo:</strong> Llavero Corto</span>
+                        <span><strong>Largo:</strong> Personalizado</span>
+                    </div>
+                    <a href="/presupuestador" target="_top" class="cta-btn">Cotizar Llaveros</a>
+                </div>
+            </div>
+
+
+            <!-- ================= CATEGORÍA: CINTAS EN ROLLO (3) ================= -->
+            <!-- Item 4 -->
+            <div class="gallery-item" data-category="rollos">
+                <div class="image-placeholder">
+                    <span>🌀</span> [FOTO REAL: Rollo Continuo]
+                    <div class="badge-type">Cinta en Rollo</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Rollos de Cinta para Sublimar</h3>
+                    <p class="item-description">Cintas base de poliéster blanco óptico de excelente absorción y anclaje de tinta para talleres de sublimación.</p>
+                    <div class="item-meta">
+                        <span><strong>Largo:</strong> 12 / 24 / 48 mt</span>
+                        <span><strong>Textura:</strong> Satinada / Gross</span>
+                    </div>
+                    <a href="/categoria/rollos-continuos" target="_top" class="cta-btn">Ver Rollos</a>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="gallery-item" data-category="rollos">
+                <div class="image-placeholder">
+                    <span>🌈</span> [FOTO REAL: Rollos Diseñados]
+                    <div class="badge-type">Cinta en Rollo</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Cintas por Metros Impresas</h3>
+                    <p class="item-description">Rollos de cintas continuas con diseños listos para packaging creativo, marroquinería decorativa o manualidades exclusivas.</p>
+                    <div class="item-meta">
+                        <span><strong>Metrajes:</strong> Packs Listos</span>
+                        <span><strong>Diseños:</strong> Exclusivos</span>
+                    </div>
+                    <a href="/categoria/cintas-por-metro" target="_top" class="cta-btn">Explorar Diseños</a>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="gallery-item" data-category="rollos">
+                <div class="image-placeholder">
+                    <span>🎒</span> [FOTO REAL: Rollo Mochilero]
+                    <div class="badge-type">Cinta en Rollo</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Cintas Polipropileno Mochileras</h3>
+                    <p class="item-description">Cintas trenzadas de alta densidad ideales para manijas de bolsos, mochilas, riñoneras y refuerzos estructurales.</p>
+                    <div class="item-meta">
+                        <span><strong>Material:</strong> Polipropileno</span>
+                        <span><strong>Anchos:</strong> Varios</span>
+                    </div>
+                    <a href="/categoria/cintas-mochileras" target="_top" class="cta-btn">Ver Mochileras</a>
+                </div>
+            </div>
+
+
+            <!-- ================= CATEGORÍA: LÍNEA MASCOTAS (3) ================= -->
+            <!-- Item 7 -->
             <div class="gallery-item" data-category="mascotas">
                 <div class="image-placeholder">
-                    <span>🐕</span> [FOTO REAL: Correa de Perro / Pretales]
-                    <div class="badge-type">Cinta Pesada</div>
+                    <span>🐕</span> [FOTO REAL: Correa / Pretales]
+                    <div class="badge-type">Línea Mascotas</div>
                 </div>
                 <div class="item-details">
                     <h3 class="item-title">Cinta Correa Pesada para Pretales</h3>
@@ -245,20 +350,37 @@
                 </div>
             </div>
 
-            <!-- Item 3: Lanyards para Eventos masivos -->
-            <div class="gallery-item" data-category="lanyards">
+            <!-- Item 8 -->
+            <div class="gallery-item" data-category="mascotas">
                 <div class="image-placeholder">
-                    <span>🎫</span> [FOTO REAL: Cintas Colgantes Acreditaciones]
-                    <div class="badge-type">Armado Terminado</div>
+                    <span>🐈</span> [FOTO REAL: Collares Gatos/Perros]
+                    <div class="badge-type">Línea Mascotas</div>
                 </div>
                 <div class="item-details">
-                    <h3 class="item-title">Cintas para Acreditaciones</h3>
-                    <p class="item-description">Producción masiva de lanyards institucionales equipados con gancho clip cocodrilo para pases de prensa y tarjetas plásticas.</p>
+                    <h3 class="item-title">Cintas para Collares Livianos</h3>
+                    <p class="item-description">Cintas sublimadas de textura suave al tacto para evitar rozaduras, perfectas para collares de paseo e identificación.</p>
                     <div class="item-meta">
-                        <span><strong>Herraje:</strong> Clip Cocodrilo</span>
-                        <span><strong>Ancho:</strong> 15 mm</span>
+                        <span><strong>Ancho:</strong> 15 mm / 20 mm</span>
+                        <span><strong>Suavidad:</strong> Premium</span>
                     </div>
-                    <a href="/presupuestador" target="_top" class="cta-btn">Cotizar Producción</a>
+                    <a href="/categoria/cintas-paseo-liviano" target="_top" class="cta-btn">Ver Cintas Livianas</a>
+                </div>
+            </div>
+
+            <!-- Item 9 -->
+            <div class="gallery-item" data-category="mascotas">
+                <div class="image-placeholder">
+                    <span>🦮</span> [FOTO REAL: Correas Extensas]
+                    <div class="badge-type">Línea Mascotas</div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-title">Cintas de Adiestramiento</h3>
+                    <p class="item-description">Rollos de cinta técnica reforzada ideales para la confección artesanal o industrial de correas largas de entrenamiento canino.</p>
+                    <div class="item-meta">
+                        <span><strong>Espesor:</strong> Reforzado</span>
+                        <span><strong>Uso:</strong> Alto Rendimiento</span>
+                    </div>
+                    <a href="/categoria/cintas-tecnicas" target="_top" class="cta-btn">Ver Línea Técnica</a>
                 </div>
             </div>
 
@@ -302,6 +424,5 @@
         window.addEventListener('load', enviarAltura);
         window.addEventListener('resize', enviarAltura);
     </script>
-
 </body>
 </html>
